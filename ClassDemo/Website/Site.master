@@ -49,11 +49,16 @@
                     <a class="navbar-brand" runat="server" href="~/">Application name</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+<%--                    
+                        // Replace the deffault menu with a menu control which will be located after the LoginView control.
+                        // The menu control is moved there to allow for proper representation on the web page to get around the bootstrap formatting.
+
+                        <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/SamplePages/FirstLinqSample.aspx">First Linq Sample</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
-                    </ul>
+                    </ul>--%>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
@@ -70,6 +75,25 @@
                             </ul>
                         </LoggedInTemplate>
                     </asp:LoginView>
+                    <%-- Replacement Menu 
+                        Two ways of creating the menu:
+                        A) Use the CPSCP 1517 Technique of Menu Control, web.sitemap, SiteMapDataSource control
+                        B) Code the menu control and content in this area
+                        --%>
+                    <asp:Menu ID="navMenu" runat="server" BackColor="Black" BorderColor="DarkRed" StaticMenuItemStyle-ForeColor="DarkGray" StaticMenuItemStyle-VerticalPadding="13px" StaticMenuItemStyle-HorizontalPadding="10px"
+                        RenderingMode="List" Orientation="Horizontal" DynamicHoverStyle-ForeColor="DarkGray" DynamicMenuStyle-BackColor="Black">
+                        <Items>
+                            <asp:MenuItem Text="Home" NavigateUrl="~/" />
+
+                            <asp:MenuItem Text="Queries">
+                                <asp:MenuItem Text="First Linq Sample" NavigateUrl="~/SamplePages/FirstLinqSample.aspx" />
+                                <asp:MenuItem Text="Albums by Year Range" NavigateUrl="~/SamplePages/AlbumsByYearRange.aspx" />
+                            </asp:MenuItem>
+
+                            <asp:MenuItem Text="About" NavigateUrl="~/About.aspx" />
+                            <asp:MenuItem Text="Contact" NavigateUrl="~/Contact.aspx" />
+                        </Items>
+                    </asp:Menu>
                 </div>
             </div>
         </div>
