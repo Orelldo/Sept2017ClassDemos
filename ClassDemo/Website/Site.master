@@ -11,7 +11,7 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
@@ -49,7 +49,7 @@
                     <a class="navbar-brand" runat="server" href="~/">Application name</a>
                 </div>
                 <div class="navbar-collapse collapse">
-<%--                    
+                    <%--                    
                         // Replace the deffault menu with a menu control which will be located after the LoginView control.
                         // The menu control is moved there to allow for proper representation on the web page to get around the bootstrap formatting.
 
@@ -79,7 +79,7 @@
                         Two ways of creating the menu:
                         A) Use the CPSCP 1517 Technique of Menu Control, web.sitemap, SiteMapDataSource control
                         B) Code the menu control and content in this area
-                        --%>
+                    --%>
                     <asp:Menu ID="navMenu" runat="server" BackColor="Black" BorderColor="DarkRed" StaticMenuItemStyle-ForeColor="DarkGray" StaticMenuItemStyle-VerticalPadding="13px" StaticMenuItemStyle-HorizontalPadding="10px"
                         RenderingMode="List" Orientation="Horizontal" DynamicHoverStyle-ForeColor="DarkGray" DynamicMenuStyle-BackColor="Black">
                         <Items>
@@ -90,6 +90,9 @@
                                 <asp:MenuItem Text="Albums by Year Range" NavigateUrl="~/SamplePages/AlbumsByYearRange.aspx" />
                                 <asp:MenuItem Text="Genre Albums And Tracks" NavigateUrl="~/SamplePages/GenreAlbumTracks.aspx" />
                             </asp:MenuItem>
+
+
+                            <asp:MenuItem Text="CRUD" NavigateUrl="~/SamplePages/TabbedCRUDReview.aspx" />
 
                             <asp:MenuItem Text="About" NavigateUrl="~/About.aspx" />
                             <asp:MenuItem Text="Contact" NavigateUrl="~/Contact.aspx" />

@@ -44,5 +44,50 @@ namespace ChinookSystem.BLL
                 return results.ToList();
             }
         }
+
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Album> Albums_ListByTitle(string title)
+        {
+            using (var context = new ChinookContext())
+            {
+                var results = from x in context.Albums
+                              where x.Title.Contains(title)
+                              orderby x.Title, x.ReleaseYear
+                              select x;
+                return results.ToList();
+            }
+        }//eom
+
+        public int Albums_Add(Album item)
+        {
+            using (var context = new ChinookContext())
+            {
+                item = context.Albums.Add(item);// Step 1
+                context.SaveChanges();// Step 2
+                // Step 1 and 2 happen at the same time, Step 1 generates the item, Step 2 commits it to the database.
+                return item.AlbumId;
+            }
+        }
+
+        public int Albums_Update(Album item)
+        {
+            using (var context = new ChinookContext())
+            {
+                context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                return context.SaveChanges();
+            }
+        }
+
+        public int Albums_Delete(int albumid)
+        {
+            using (var context = new ChinookContext())
+            {
+                var existingItem = context.Albums.Find(albumid);
+                context.Albums.Remove(existingItem);
+                return context.SaveChanges();
+
+            }
+        }
     }
 }
