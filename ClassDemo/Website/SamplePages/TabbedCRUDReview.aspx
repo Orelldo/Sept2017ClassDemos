@@ -132,7 +132,7 @@
                 <div class="tab-pane fade" id="listviewcrud">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                         <ContentTemplate>
-                            <asp:ListView ID="ListViewCRUD" runat="server" DataSourceID="ListViewODS" InsertItemPosition="LastItem" DataKeyName="AlbumID">
+                            <asp:ListView ID="ListViewCRUD" runat="server" DataSourceID="ListViewODS" InsertItemPosition="LastItem" DataKeyName="AlbumId">
                                 <AlternatingItemTemplate>
                                     <tr style="background-color: #FFF8DC;">
                                         <td>
@@ -264,7 +264,7 @@
                                 DeleteMethod="Albums_Delete" 
                                 InsertMethod="Albums_Add" 
                                 OldValuesParameterFormatString="original_{0}"
-                                TypeName="ChinookSystem.BLL.Security.UserManager"
+                                TypeName="ChinookSystem.BLL.AlbumController"
                                 OnDeleted="CheckForException"
                                 OnInserted="CheckForException"
                                 OnSelected="CheckForException"
