@@ -8,12 +8,30 @@ using System.Web.UI.WebControls;
 #region Additional Namespaces
 using Chinook.Data.Entities;
 using ChinookSystem.BLL;
+using Chinook.Data.Entities.Security;
 #endregion
 public partial class SamplePages_TabbedCRUDReview : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         Message.Text = "";
+
+        if (!IsPostBack)
+        {
+            // Essentially asks if the user is logged on.
+            if (!Request.IsAuthenticated)
+            {
+                Response.Redirect("~/Account/Login.aspx");
+            }
+            else
+            {
+                // Are you in the approved role for accessing this page?
+                if (!User.IsInRole(SecurityRoles.Staff))
+                {
+                    Response.Redirect("~/Account/Login.aspx");
+                }
+            }
+        }
     }
 
 

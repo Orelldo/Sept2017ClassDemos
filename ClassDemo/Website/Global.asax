@@ -12,7 +12,11 @@
         BundleConfig.RegisterBundles(BundleTable.Bundles);
 
         var RoleManager = new RoleManager();
-        RoleManager.AddDefaultTables();
+        RoleManager.AddDefaultRoles();
+
+        var UserManager = new UserManager();
+        UserManager.AddWebMaster();
+        UserManager.AddEmployees();
     }
 
 </script>

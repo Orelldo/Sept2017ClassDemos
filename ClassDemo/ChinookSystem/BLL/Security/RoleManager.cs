@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChinookSystem.BLL
+namespace ChinookSystem.BLL.Security
 {
     [DataObject]
     public class RoleManager : RoleManager<IdentityRole>
