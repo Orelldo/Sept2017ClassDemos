@@ -45,7 +45,6 @@ namespace ChinookSystem.BLL
             }
         }
 
-
         [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<Album> Albums_ListByTitle(string title)
         {
@@ -115,6 +114,22 @@ namespace ChinookSystem.BLL
         public void Albums_Delete(Album item)
         {
             Albums_Delete(item.AlbumId);
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<SelectionList> List_AlbumTitles()
+        {
+            using (var context = new ChinookContext())
+            {
+                var results = from x in context.Albums
+                              orderby x.Title
+                              select new SelectionList
+                              {
+                                  IDValueField = x.AlbumId,
+                                  DisplayText = x.Title
+                              };
+                return results.ToList();
+            }
         }
     }
 }
