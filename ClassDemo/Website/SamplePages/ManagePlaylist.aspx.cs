@@ -96,19 +96,43 @@ public partial class SamplePages_ManagePlaylist : System.Web.UI.Page
 
                 // Obtain the username from the security part of the application.
                 string username = User.Identity.Name;
-                PlaylistTracksController systemManager = new PlaylistTracksController();
-                List<UserPlaylistTrack> retrievedPlaylist = systemManager.List_TracksForPlaylist(PlaylistName.Text, username);
+                PlaylistTracksController sysmgr = new PlaylistTracksController();
+                List<UserPlaylistTrack> retrievedPlaylist = sysmgr.List_TracksForPlaylist(PlaylistName.Text, username);
 
                 PlayList.DataSource = retrievedPlaylist;
                 PlayList.DataBind();
-            });
+            },"Success","Here is your current playlist");
         }
     }
 
     protected void TracksSelectionList_ItemCommand(object sender, 
         ListViewCommandEventArgs e)
     {
-        //code to go here
+        // code to go here
+        // ListViewCancelEventArgs parameter contains the CommandArg value
+        if (string.IsNullOrEmpty(PlaylistName.Text))
+        {
+            // Put out an error message
+            MessageUserControl.ShowInfo("Warning", "Playlist Name is required.");
+        }
+        else
+        {
+            string username = User.Identity.Name;
+
+            // TrackID is going to come from e.CommandArgument
+            // e.CommandArgument is an object therefore it needs to be converted to String, then parsed.
+            int trackID = int.Parse(e.CommandArgument.ToString());
+
+            // The following code calls a BLL method to add to the database.
+            MessageUserControl.TryRun(() =>
+            {
+                PlaylistTracksController sysmgr = new PlaylistTracksController();
+                List<UserPlaylistTrack> refreshResults = sysmgr.Add_TrackToPLaylist(PlaylistName.Text, username, trackID);
+                PlayList.DataSource = refreshResults;
+                PlayList.DataBind();
+            }, "Success", "Track added to Playlist");
+        }
+
     }
 
     protected void MoveUp_Click(object sender, EventArgs e)
