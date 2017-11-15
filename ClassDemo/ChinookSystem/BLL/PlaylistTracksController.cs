@@ -25,9 +25,9 @@ namespace ChinookSystem.BLL
                 // We need to ensure that results has a valid value, this value will be an IEnumerable<T> collection or it should be null
                 // To ensure that results does end up with a valid value, use the .FirstOrDefault()
                 var results = (from x in context.Playlists
-                              where x.UserName.Equals(username)
-                                  && x.Name.Equals(playlistname)
-                              select x).FirstOrDefault();
+                               where x.UserName.Equals(username)
+                                   && x.Name.Equals(playlistname)
+                               select x).FirstOrDefault();
 
                 var theTracks = from x in context.PlaylistTracks
                                 where x.PlaylistId.Equals(results.PlaylistId)
@@ -109,8 +109,98 @@ namespace ChinookSystem.BLL
         {
             using (var context = new ChinookContext())
             {
-                //code to go here 
+                // Query for playlistID
+                var exists = (from x in context.Playlists
+                              where x.UserName.Equals(username)
+                                  && x.Name.Equals(playlistname)
+                              select x).FirstOrDefault();
 
+
+
+                // Determine if this is an addition to an existing playlist or if it is a new playlist
+                if (exists == null)
+                {
+                    throw new Exception("Playlist has been removed");
+                }
+                else
+                {
+                    // Limit search to particular playlist
+                    PlaylistTrack moveTrack = (from x in exists.PlaylistTracks
+                                               where x.TrackId == trackid
+                                               select x).FirstOrDefault();
+                    if (moveTrack == null)
+                    {
+                        throw new Exception("Playlist track has been removed");
+                    }
+                    else
+                    {
+                        PlaylistTrack otherTrack = null;
+
+                        #region Move UP
+                        if (direction.Equals("up".ToUpper()))
+                        {
+                            // Doing another (kind of pointless) test to see the position of the item
+                            if (moveTrack.TrackNumber == 1)
+                            {
+                                throw new Exception("Track is in top position and can not be moved up");
+                            }
+                            else
+                            {
+                                // Get the other track
+                                otherTrack = (from x in exists.PlaylistTracks
+                                              where x.TrackNumber == moveTrack.TrackNumber - 1
+                                              select x).FirstOrDefault();
+
+                                if (otherTrack == null)
+                                {
+                                    throw new Exception("Playlist track cannot be moved up");
+                                }
+                                else
+                                {
+                                    moveTrack.TrackNumber--;
+                                    otherTrack.TrackNumber++;
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Move DOWN
+                        else
+                        {
+                            // Doing another (kind of pointless) test to see the position of the item
+                            if (moveTrack.TrackNumber == exists.PlaylistTracks.Count)
+                            {
+                                throw new Exception("Track is in bottom position and can not be moved down");
+                            }
+                            else
+                            {
+                                // Get the other track
+                                otherTrack = (from x in exists.PlaylistTracks
+                                              where x.TrackNumber == moveTrack.TrackNumber + 1
+                                              select x).FirstOrDefault();
+
+                                if (otherTrack == null)
+                                {
+                                    throw new Exception("Playlist track cannot be moved down");
+                                }
+                                else
+                                {
+                                    moveTrack.TrackNumber++;
+                                    otherTrack.TrackNumber--;
+                                }
+                            }
+                        }
+                        #endregion
+                        //eo up/down
+
+                        // Stage changes for Save Changes()
+                        // Indicate only the fied that needs to be updated
+                        context.Entry(moveTrack).Property(y => y.TrackNumber).IsModified = true;
+                        context.Entry(otherTrack).Property(y => y.TrackNumber).IsModified = true;
+
+                        context.SaveChanges();
+                    }
+                }
             }
         }//eom
 
@@ -119,7 +209,7 @@ namespace ChinookSystem.BLL
         {
             using (var context = new ChinookContext())
             {
-               //code to go here
+                //code to go here
 
 
             }

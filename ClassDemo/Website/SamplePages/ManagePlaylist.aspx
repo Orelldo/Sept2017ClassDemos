@@ -178,7 +178,7 @@
                 <asp:TemplateField >
                     <ItemTemplate>
                         <asp:CheckBox ID="Selected" runat="server" />
-                        <asp:Label runat="server" ID="TrackId"
+                        <asp:Label runat="server" ID="TrackID"
                             Text='<%# Eval("TrackID") %>' Visible="false"></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
