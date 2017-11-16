@@ -95,6 +95,7 @@
                             <asp:MenuItem Text="CRUD" NavigateUrl="~/SamplePages/TabbedCRUDReview.aspx" />
                             <asp:MenuItem Text="Security" NavigateUrl="~/Admin/Security/UserRoleAdmin.aspx" />
                             <asp:MenuItem Text="UX" NavigateUrl="~/SamplePages/ManagePlaylist.aspx" />
+                            <asp:MenuItem Text="Genre Album Report" NavigateUrl="~/SamplePages/GenreAlbumReport.aspx" />
                             <asp:MenuItem Text="About" NavigateUrl="~/About.aspx" />
                             <asp:MenuItem Text="Contact" NavigateUrl="~/Contact.aspx" />
                         </Items>
