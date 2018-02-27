@@ -79,6 +79,8 @@ namespace ChinookSystem.BLL.Security
             {
                 throw new Exception("Delete failed. " + role.RoleName + " has existing users. Reassign users first.");
             }
+
+
         }
         #endregion
     }

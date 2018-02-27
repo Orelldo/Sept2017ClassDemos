@@ -164,6 +164,7 @@ namespace ChinookSystem.BLL.Security
             return verifiedUserName;
         }
 
+
         #region UserRole Adminstration
         [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<UserProfile> ListAllUsers()
@@ -208,6 +209,7 @@ namespace ChinookSystem.BLL.Security
             if (string.IsNullOrEmpty(userinfo.EmployeeId.ToString()))
             {
                 throw new Exception("Employee ID is missing. Remember Employee must be on file to get an user account.");
+
             }
             else
             {
@@ -250,6 +252,7 @@ namespace ChinookSystem.BLL.Security
         {
             this.AddToRole(userAccount.Id, roleName);
         }
+
 
         public void RemoveUser(UserProfile userinfo)
         {

@@ -105,8 +105,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <asp:CheckBoxList ID="RoleMemberships" runat="server"
-                                            DataSourceID="RoleNameODS">
-                                        </asp:CheckBoxList>
+                                            DataSourceID="RoleNameODS"></asp:CheckBoxList>
                                     </div>
                                 </div>
                             </InsertItemTemplate>

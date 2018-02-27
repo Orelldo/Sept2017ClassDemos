@@ -16,8 +16,7 @@ namespace ChinookSystem.BLL
 {
     public class PlaylistTracksController
     {
-        public List<UserPlaylistTrack> List_TracksForPlaylist(
-            string playlistname, string username)
+        public List<UserPlaylistTrack> List_TracksForPlaylist(string playlistname, string username)
         {
             using (var context = new ChinookContext())
             {
@@ -105,6 +104,7 @@ namespace ChinookSystem.BLL
                 return List_TracksForPlaylist(playlistname, username);
             }
         }//eom
+
         public void MoveTrack(string username, string playlistname, int trackid, int tracknumber, string direction)
         {
             using (var context = new ChinookContext())
@@ -204,14 +204,52 @@ namespace ChinookSystem.BLL
             }
         }//eom
 
-
         public void DeleteTracks(string username, string playlistname, List<int> trackstodelete)
         {
             using (var context = new ChinookContext())
             {
                 //code to go here
 
+                var exists = (from x in context.Playlists
+                              where x.UserName.Equals(username)
+                                && x.Name.Equals(playlistname)
+                              select x).FirstOrDefault();
+                if (exists == null)
+                {
+                    throw new Exception("Play list has been removed from the file.");
+                }
+                else
+                {
+                    //find tracks that will be kept
+                    var tracksKept = exists.PlaylistTracks
+                                     .Where(tr => !trackstodelete.Any(tod => tod == tr.TrackId))
+                                     .Select(tr => tr);
 
+                    //remove unwanted tracks
+                    PlaylistTrack item = null;
+                    foreach (var dtrackid in trackstodelete)
+                    {
+                        item = exists.PlaylistTracks
+                            .Where(tr => tr.TrackId == dtrackid)
+                            .FirstOrDefault();
+                        if (item != null)
+                        {
+                            exists.PlaylistTracks.Remove(item);
+                        }
+
+                    }
+
+                    //renumber remaining (Kept) list
+                    int number = 1;
+                    foreach (var tKept in tracksKept)
+                    {
+                        tKept.TrackNumber = number;
+                        context.Entry(tKept).Property(y => y.TrackNumber).IsModified = true;
+                        number++;
+                    }
+
+                    context.SaveChanges();
+                }
             }
         }//eom
     }
